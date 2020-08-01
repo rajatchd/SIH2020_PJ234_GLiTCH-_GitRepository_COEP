@@ -26,7 +26,7 @@ function onDeviceReady()
 	
   var statusElement = document.getElementById("status");
   statusElement.innerHTML = "Device Ready!";
-  setInterval(myProcess, 5000);
+  setInterval(myProcess, 6000);
 }
 
 function myProcess()
@@ -98,6 +98,6 @@ function onError(error) {
 
 function getGeoLocation()
 {
-  let gpsOptions = {maximumAge: 10000, timeout: 5000, enableHighAccuracy: true};
+  let gpsOptions = {maximumAge: 6000, timeout: 5000, enableHighAccuracy: true};
   navigator.geolocation.getCurrentPosition(onSuccess, onError, gpsOptions);
 }
