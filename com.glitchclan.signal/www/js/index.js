@@ -66,7 +66,7 @@ function getSignalStrength()
       }    
       else if(p_dBmValue > 100)
       {
-        qualityElement.innerHTML = 'Quality: Poor';
+        qualityElement.innerHTML = 'Quality: Very Poor';
       }
       else
       {
