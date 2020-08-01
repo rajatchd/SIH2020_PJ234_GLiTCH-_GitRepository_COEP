@@ -5,15 +5,24 @@ function onLoad()
 
 function onDeviceReady()
 {
-  var latitudeElement = document.getElementById("latitudeElement");
-  var longitudeElement = document.getElementById("longitudeElement");
-  var altitudeElement = document.getElementById("altitudeElement");
-  var accuracyElement = document.getElementById("accuracyElement");
-  var altAccuracyElement = document.getElementById("altAccuracyElement");
-  var headingElement = document.getElementById("headingElement");
-  var speedElement = document.getElementById("speedElement");
-  var timestampElement = document.getElementById("timestampElement");
-  var humanTimestamp = document.getElementById("humanTimestamp");
+  var latitudeElement  = 
+      document.getElementById("latitudeElement");
+  var longitudeElement = 
+      document.getElementById("longitudeElement");
+  var altitudeElement = 
+      document.getElementById("altitudeElement");
+  var accuracyElement = 
+      document.getElementById("accuracyElement");
+  var altAccuracyElement = 
+      document.getElementById("altAccuracyElement");
+  var headingElement =
+      document.getElementById("headingElement");
+  var speedElement = 
+      document.getElementById("speedElement");
+  var timestampElement = 
+      document.getElementById("timestampElement");
+  var humanTimestamp =
+      document.getElementById("humanTimestamp");
 	
   var statusElement = document.getElementById("status");
   statusElement.innerHTML = "Device Ready!";
