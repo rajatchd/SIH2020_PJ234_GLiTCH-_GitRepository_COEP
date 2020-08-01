@@ -17,10 +17,10 @@ function onDeviceReady()
 	
   var statusElement = document.getElementById("status");
   statusElement.innerHTML = "Device Ready!";
-  setInterval(myProcess, 6000);
+  setInterval(glitchGetSignal, 6000);
 }
 
-function myProcess()
+function glitchGetSignal()
 {
   getSignalStrength();
   getGeoLocation();
