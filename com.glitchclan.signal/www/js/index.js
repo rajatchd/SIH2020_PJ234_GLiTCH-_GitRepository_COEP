@@ -9,7 +9,6 @@ function onDeviceReady()
   var longitudeElement   = document.getElementById("longitudeElement");
   var altitudeElement    = document.getElementById("altitudeElement");
   var accuracyElement    = document.getElementById("accuracyElement");
-  
   var headingElement     = document.getElementById("headingElement");
   var speedElement       = document.getElementById("speedElement");
   var timestampElement   = document.getElementById("timestampElement");
@@ -71,8 +70,7 @@ function onSuccess(position) {
   latitudeElement.innerHTML     = 'Latitude: '          + position.coords.latitude;
   longitudeElement.innerHTML    = 'Longitude: '         + position.coords.longitude;
   altitudeElement.innerHTML     = 'Altitude: '          + position.coords.altitude;
-  
-  altAccuracyElement.innerHTML  = 'Altitude Accuracy: ' + position.coords.altitudeAccuracy;
+  accuracyElement.innerHTML     = 'Accuracy: '          + position.coords.accuracy;
   headingElement.innerHTML      = 'Heading: '           + position.coords.heading;
   speedElement.innerHTML        = 'Speed: '             + position.coords.speed;
   timestampElement.innerHTML    = 'Timestamp: '         + position.timestamp;
