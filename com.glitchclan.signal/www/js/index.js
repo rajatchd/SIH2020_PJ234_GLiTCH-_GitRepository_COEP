@@ -13,7 +13,8 @@ function onDeviceReady()
   var headingElement = document.getElementById("headingElement");
   var speedElement = document.getElementById("speedElement");
   var timestampElement = document.getElementById("timestampElement");
-
+  var humanTimestamp = document.getElementById("humanTimestamp");
+	
   var statusElement = document.getElementById("status");
   statusElement.innerHTML = "Device Ready!";
   setInterval(myProcess, 5000);
@@ -75,6 +76,10 @@ function onSuccess(position) {
   headingElement.innerHTML      = 'Heading: '           + position.coords.heading;
   speedElement.innerHTML        = 'Speed: '             + position.coords.speed;
   timestampElement.innerHTML    = 'Timestamp: '         + position.timestamp;
+	
+  var theDate = new Date(position.timestamp);
+  dateString = theDate.toGMTString();
+  humanTimestamp.innerHTML      = 'Date: '              + dateString;
 }
 
 function onError(error) {
