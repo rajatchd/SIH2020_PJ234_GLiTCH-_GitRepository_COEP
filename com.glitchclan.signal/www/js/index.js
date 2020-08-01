@@ -51,13 +51,13 @@ function getSignalStrength()
       {
         qualityElement.innerHTML = 'Quality: Fair';
       }
-      else if(p_dBmValue > 100)
-      {
-        qualityElement.innerHTML = 'Quality: Poor';
-      }
       else if(p_dBmValue > 110)
       {
         qualityElement.innerHTML = 'Quality: No Signal';
+      }    
+      else if(p_dBmValue > 100)
+      {
+        qualityElement.innerHTML = 'Quality: Poor';
       }
       else
       {
