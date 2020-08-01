@@ -16,7 +16,7 @@ function onDeviceReady()
 
   var statusElement = document.getElementById("status");
   statusElement.innerHTML = "Device Ready!";
-  setInterval(myProcess, 1000);
+  setInterval(myProcess, 5000);
 }
 
 function myProcess()
@@ -84,27 +84,6 @@ function onError(error) {
 
 function getGeoLocation()
 {
-  let gpsOptions = {maximumAge: 300000, timeout: 1000, enableHighAccuracy: true};
+  let gpsOptions = {maximumAge: 10000, timeout: 5000, enableHighAccuracy: true};
   navigator.geolocation.getCurrentPosition(onSuccess, onError, gpsOptions);
 }
-
-// These two callbacks are for geolocation.
-/*function onSuccess(position) {
-  alert('Latitude: '          + position.coords.latitude          + '\n' +
-        'Longitude: '         + position.coords.longitude         + '\n' +
-        'Altitude: '          + position.coords.altitude          + '\n' +
-        'Accuracy: '          + position.coords.accuracy          + '\n' +
-        'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-        'Heading: '           + position.coords.heading           + '\n' +
-        'Speed: '             + position.coords.speed             + '\n' +
-        'Timestamp: '         + position.timestamp                + '\n');
-}
-*/
-
-// onError Callback receives a PositionError object
-/*
-function onError(error) {
-  alert('code: '    + error.code    + '\n' +
-        'message: ' + error.message + '\n');
-}
-*/
