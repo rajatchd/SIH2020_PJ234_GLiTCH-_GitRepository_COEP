@@ -1,67 +1,78 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link href="assets/ratchet/css/ratchet.css" rel="stylesheet">
-    <link href="assets/css/styles.css" rel="stylesheet">
-    <link href="assets/css/pageslider.css" rel="stylesheet">
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <h1>Signal Strength App</h1>
-    <h3>by GLiTCH Clan</h3>
-    <h5>Smart India Hackathon</h5>
-    <br>
-</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
 
-<body onload="onLoad()">
-    <label id="status">Waiting for Device...</label>
-    <br>
-    <label id="dBm">Starting App... Please wait!</label>
-    <br>
-    <label id="quality">Getting Signal Quality Level... Please wait!</label> 
-    <br>
-    <label id="dataState">Getting Data State... Please wait!</label>
-    <br>
-    <br>
-    <label id="info1">==-- Connection Information --==</label>
-    <br>
-    <label id="connectionType">Getting Current Connection Type. Please wait!</label>
-    <br>
-    <label id="connectionFunction">Getting Current Connection Type from Function. Please wait!</label>
-    <br>
-    <label id="ISPElement">Getting ISP Info... Please Wait!</label>
-    <br>
-    <label id="simInfoError">No SIM Info Errors.</label>
-    <br>
-    <br>
-    <label id="locInfo">==-- Location Information --==</label>
-    <br>
-    <label id="info0">Note: This might take a while to refresh!</label>
-    <br>
-    <br>
-    <label id="latitudeElement">Getting Latitude Info... Please wait.</label>
-    <br>
-    <label id="longitudeElement">Getting Longitude Info... Please wait.</label>
-    <br>
-    <label id="altitudeElement">Getting Altitude Info... Please wait.</label>
-    <br>
-    <label id="accuracyElement">Getting accuracy Info... Please wait.</label>
-    <br>
-    <label id="headingElement">Getting heading Info... Please wait.</label>
-    <br>
-    <label id="speedElement">Getting speed info... Please wait.</label>
-    <br>
-    <label id="timestampElement">Getting timestamp info... Please wait.</label>
-    <br>
-    <label id="humanTimestamp">Getting date time info... Please wait.</label>
-    <br>
-    <label id="errSecInfo">==-- Location Error Info --==</label>
-    <br>
-    <label id="errorCodeElement">No error.</label>
-    <br>
-    <label id="errorMessageElement">No error.</label>
-    <br>
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 0, 0);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="phone-info.html">Signal Information</a>
+  <a href="heatmap.html">Signal Heatmap</a>
+  <a href="basic-webmap.html">Signal Hotspot Map</a>
+  <a href="basic-gps.html">GPS Map</a>
+  <a href="basic-map.html">Plain Map</a>
+</div>
+
+<h1>Signal Reporting App</h1>
+<h2>by GLiTCH! Clan for SIH 2020</h2>
+<h3>Debug Build [ALPHA]</h3>
+<p>Click to open the side navigation menu.</p>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+   
 </body>
-</html>
+</html> 
