@@ -1,6 +1,8 @@
 function onLoad()
 {
 	document.addEventListener('deviceready', onDeviceReady, false);
+	document.addEventListener("offline", deviceOffline, false);
+  document.addEventListener("online", deviceOnline, false);
 }
 
 function onDeviceReady()
@@ -13,16 +15,63 @@ function onDeviceReady()
   var speedElement       = document.getElementById("speedElement");
   var timestampElement   = document.getElementById("timestampElement");
   var humanTimestamp     = document.getElementById("humanTimestamp");
-	
   var statusElement = document.getElementById("status");
-  statusElement.innerHTML = "Device Ready!";
+  
+	statusElement.innerHTML = "Device Ready!";
   setInterval(glitchGetSignal, 6000);
+	
+	window.plugins.sim.getSimInfo(simInfoSuccess, simInfoError);
+}
+
+function simInfoSuccess(result)
+{
+  var ISPElement = document.getElementById("ISPElement");
+  ISPElement.innerHTML = "ISP: " + result.carrierName;
+}
+
+function simInfoError(error)
+{
+  var simInfoErrElement  = document.getElementById("simInfoError");
+  simInfoErrElement.innerHTML = "Status is: " + error;
 }
 
 function glitchGetSignal()
 {
   getSignalStrength();
   getGeoLocation();
+}
+
+function deviceOffline()
+{
+  var dataStateElement   = document.getElementById("dataState");
+  dataStateElement.innerHTML = "OFFLINE! Data is not working.";
+}
+
+function deviceOnline()
+{
+  var networkState = navigator.connection.type;
+  var dataStateElement   = document.getElementById("dataState");
+  dataStateElement.innerHTML = "ONLINE! Data is working.";
+  var connectionTypeElement = document.getElementById("connectionType");
+  connectionTypeElement.innerHTML = 'Connection type: ' + networkState;
+  checkConnectionType();
+}
+
+function checkConnectionType() {
+  var networkState = navigator.connection.type;
+
+  var states = {};
+  states[Connection.UNKNOWN]  = 'Unknown connection';
+  states[Connection.ETHERNET] = 'Ethernet connection';
+  states[Connection.WIFI]     = 'WiFi connection';
+  states[Connection.CELL_2G]  = 'Cell 2G connection';
+  states[Connection.CELL_3G]  = 'Cell 3G connection';
+  states[Connection.CELL_4G]  = 'Cell 4G connection';
+  states[Connection.CELL]     = 'Cell generic connection';
+  states[Connection.NONE]     = 'No network connection';
+
+  var connectionTypeFunction = document.getElementById("connectionFunction");
+  connectionTypeFunction.innerHTML = 'Connection type: ' + states[networkState];
 }
 
 function getSignalStrength()
