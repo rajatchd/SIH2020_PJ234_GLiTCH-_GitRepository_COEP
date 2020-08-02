@@ -1,7 +1,7 @@
 function onLoad()
 {
-	document.addEventListener('deviceready', onDeviceReady, false);
-	document.addEventListener("offline", deviceOffline, false);
+  document.addEventListener('deviceready', onDeviceReady, false);
+  document.addEventListener("offline", deviceOffline, false);
   document.addEventListener("online", deviceOnline, false);
 }
 
@@ -15,18 +15,62 @@ function onDeviceReady()
   var speedElement       = document.getElementById("speedElement");
   var timestampElement   = document.getElementById("timestampElement");
   var humanTimestamp     = document.getElementById("humanTimestamp");
-  var statusElement = document.getElementById("status");
+  var dataStateElement   = document.getElementById("dataState");
+  var statusElement      = document.getElementById("status");
   
-	statusElement.innerHTML = "Device Ready!";
+  statusElement.innerHTML = "Device Ready!";
   setInterval(glitchGetSignal, 6000);
-	
-	window.plugins.sim.getSimInfo(simInfoSuccess, simInfoError);
+  
+  window.plugins.sim.getSimInfo(simInfoSuccess, simInfoError);
 }
 
 function simInfoSuccess(result)
 {
   var ISPElement = document.getElementById("ISPElement");
+  var DSIElement = document.getElementById("Dual SIM");
+  var sim1Name   = document.getElementById("sim1Name");
+  var sim1Name   = document.getElementById("sim2Name");
+  var netwType   = document.getElementById("netwType");
+  
+  currentState = result.networkType;
+  
+  var Nstates = {};
+  Nstates[0]  = 'Unknown connection';
+  Nstates[1]  = 'GPRS connection';
+  Nstates[2]  = 'EDGE connection';
+  Nstates[3]  = 'UMTS connection';
+  Nstates[4]  = 'CDMA: Either IS95A or IS95B connection';
+  Nstates[5]  = 'EVDO revision 0 connection';
+  Nstates[6]  = 'EVDO revision A connection';
+  Nstates[7]  = '1xRTT connection';
+  Nstates[8]  = 'HSDPA connection';
+  Nstates[9]  = 'HSUPA connection';
+  Nstates[10] = 'HSPA connection';
+  Nstates[11] = 'iDen connection';
+  Nstates[12] = 'EVDO revision B connection';
+  Nstates[13] = 'LTE connection';
+  Nstates[14] = 'eHRPD connection';
+  Nstates[15] = 'HSPA+ connection';
+  Nstates[16] = 'GSM connection';
+  Nstates[17] = 'TD-SCDMA connection';
+  Nstates[18] = 'IWLAN connection';
+
+  netwType.innerHTML = "Network Type: " + Nstates[currentState];
+
   ISPElement.innerHTML = "ISP: " + result.carrierName;
+  alert(result.cards);
+  DSIElement.innerHTML = "Dual SIM: " + result.cards.length;
+  sim1Name.innerHTML   = "SIM1 ISP: " + result.cards[0].carrierName;
+  sim2Name.innerHTML   = "SIM2 ISP: " + result.cards[1].carrierName;
+}
+
+function checkNetworkType() {
+  var networkState = navigator.connection.type;
+
+  
+
+  var connectionTypeFunction = document.getElementById("connectionFunction");
+  connectionTypeFunction.innerHTML = 'Connection type: ' + states[networkState];
 }
 
 function simInfoError(error)
@@ -53,7 +97,6 @@ function deviceOnline()
   var dataStateElement   = document.getElementById("dataState");
   dataStateElement.innerHTML = "ONLINE! Data is working.";
   var connectionTypeElement = document.getElementById("connectionType");
-  connectionTypeElement.innerHTML = 'Connection type: ' + networkState;
   checkConnectionType();
 }
 
@@ -89,6 +132,10 @@ function getSignalStrength()
       var p_dBmValue = parseInt(measuredDbm)*(-1);
       if(p_dBmValue <= 70)
       {
+        if(p_dBmValue == 1)
+        {
+          qualityElement.innerHTML = 'Quality: Getting ready...';
+        }
         qualityElement.innerHTML = 'Quality: Excellent';
       }
       else if(p_dBmValue <= 85 && p_dBmValue > 70)
@@ -102,10 +149,10 @@ function getSignalStrength()
       else if(p_dBmValue > 110)
       {
         qualityElement.innerHTML = 'Quality: No Signal';
-      }    
+      }
       else if(p_dBmValue > 100)
       {
-        qualityElement.innerHTML = 'Quality: Very Poor';
+        qualityElement.innerHTML = 'Quality: Poor';
       }
       else
       {
@@ -123,7 +170,7 @@ function onSuccess(position) {
   headingElement.innerHTML      = 'Heading: '           + position.coords.heading;
   speedElement.innerHTML        = 'Speed: '             + position.coords.speed;
   timestampElement.innerHTML    = 'Timestamp: '         + position.timestamp;
-	
+  
   var theDate = new Date(position.timestamp);
   dateString = theDate.toGMTString();
   humanTimestamp.innerHTML      = 'Date: '              + dateString;
