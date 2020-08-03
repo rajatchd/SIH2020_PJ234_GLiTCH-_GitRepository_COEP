@@ -7,6 +7,7 @@ function onLoad()
 
 function onDeviceReady()
 {
+  alert("Please make sure location is turned on!");
   var latitudeElement    = document.getElementById("latitudeElement");
   var longitudeElement   = document.getElementById("longitudeElement");
   var altitudeElement    = document.getElementById("altitudeElement");
@@ -29,8 +30,7 @@ function simInfoSuccess(result)
   var ISPElement = document.getElementById("ISPElement");
   var DSIElement = document.getElementById("Dual SIM");
   var sim1Name   = document.getElementById("sim1Name");
-  var sim1Name   = document.getElementById("sim2Name");
-  var netwType   = document.getElementById("netwType");
+  var sim2Name   = document.getElementById("sim2Name");
   
   currentState = result.networkType;
   
@@ -55,20 +55,24 @@ function simInfoSuccess(result)
   Nstates[17] = 'TD-SCDMA connection';
   Nstates[18] = 'IWLAN connection';
 
-  netwType.innerHTML = "Network Type: " + Nstates[currentState];
-
   ISPElement.innerHTML = "ISP: " + result.carrierName;
-  alert(result.cards);
   DSIElement.innerHTML = "Dual SIM: " + result.cards.length;
   sim1Name.innerHTML   = "SIM1 ISP: " + result.cards[0].carrierName;
   sim2Name.innerHTML   = "SIM2 ISP: " + result.cards[1].carrierName;
+
+  if(result.cards.length > 1)
+  {
+    ISPElement.innerHTML = "ISP: " + "Dual SIM Detected. ISPs Listed Below!";
+  }
+  else
+  {
+    ISPElement.innerHTML = "ISP: " + "Single SIM Detected. ISP Listed Below!";
+  }
 }
 
-function checkNetworkType() {
+function checkNetworkType()
+{
   var networkState = navigator.connection.type;
-
-  
-
   var connectionTypeFunction = document.getElementById("connectionFunction");
   connectionTypeFunction.innerHTML = 'Connection type: ' + states[networkState];
 }
@@ -129,20 +133,26 @@ function getSignalStrength()
       var dBmElement = document.getElementById("dBm");
       var qualityElement = document.getElementById("quality");
       dBmElement.innerHTML = 'Current Signal Strength is: '+measuredDbm+' dBm';
+      
+      if(measuredDbm === 85)
+      {
+        dBmElement.innerHTML = 'Plugin Error: Try switching SIM 1 to 3G to fix!';
+      }
       var p_dBmValue = parseInt(measuredDbm)*(-1);
       if(p_dBmValue <= 70)
       {
+        qualityElement.innerHTML = 'Quality: Excellent';
         if(p_dBmValue == 1)
         {
           qualityElement.innerHTML = 'Quality: Getting ready...';
+          dBmElement.innerHTML     = 'Signal: Getting Signal Strength...';
         }
-        qualityElement.innerHTML = 'Quality: Excellent';
       }
-      else if(p_dBmValue <= 85 && p_dBmValue > 70)
+      else if(p_dBmValue <= 86 && p_dBmValue > 70)
       {
         qualityElement.innerHTML = 'Quality: Good';
       }
-      else if(p_dBmValue <= 100 && p_dBmValue > 85)
+      else if(p_dBmValue <= 100 && p_dBmValue > 86)
       {
         qualityElement.innerHTML = 'Quality: Fair';
       }
@@ -162,7 +172,8 @@ function getSignalStrength()
   )
 }
 
-function onSuccess(position) {
+function onSuccess(position)
+{
   latitudeElement.innerHTML     = 'Latitude: '          + position.coords.latitude;
   longitudeElement.innerHTML    = 'Longitude: '         + position.coords.longitude;
   altitudeElement.innerHTML     = 'Altitude: '          + position.coords.altitude;
@@ -174,15 +185,26 @@ function onSuccess(position) {
   var theDate = new Date(position.timestamp);
   dateString = theDate.toGMTString();
   humanTimestamp.innerHTML      = 'Date: '              + dateString;
+  errorCodeElement.innerHTML    = 'No Error';
+  errorMessageElement.innerHTML = 'No Error';
+  locTimeoutCount = 0;
 }
-
-function onError(error) {
+var locTimeoutCount = 0;
+var alertGiven = 0;
+function onError(error)
+{
   errorCodeElement.innerHTML    = 'code: '              + error.code;
   errorMessageElement.innerHTML = 'message: '           + error.message;
+  locTimeoutCount = locTimeoutCount + 1;
 }
 
 function getGeoLocation()
 {
   let gpsOptions = {maximumAge: 6000, timeout: 5000, enableHighAccuracy: true};
+  if(locTimeoutCount > 2 && alertGiven < 1)
+  {
+    alert("Please make sure location is turned on!");
+    alertGiven = 1;
+  }
   navigator.geolocation.getCurrentPosition(onSuccess, onError, gpsOptions);
 }
